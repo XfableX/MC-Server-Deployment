@@ -24,7 +24,7 @@ template_vars = [
         'ParameterValue': args.ami_id
         },
     {
-        'ParameterKey':"release",
+        'ParameterKey':"Release",
         'ParameterValue': args.release_name
         }
 ]
