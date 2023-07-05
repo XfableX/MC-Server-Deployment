@@ -39,7 +39,7 @@ local_bin_filename = os.path.join("/tmp/",bin_filename)
 
 with tarfile.open(local_bin_filename, "w:gz") as artifact:
     artifact.add('bin')
-s3_put_object(os.path.join(release_prefix, local_bin_filename))
+s3_put_object(os.path.join(release_prefix, bin_filename),local_bin_filename)
 
 for template in glob.glob("Cloudformation", "*"):
     s3_put_object(os.path.join(release_prefix, "templates", os.path.basename(template)), open(template, "rb"))
