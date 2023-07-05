@@ -1,0 +1,2 @@
+- import_tasks: survival.yml
+  tags: [survival]

@@ -1,0 +1,28 @@
+pipeline{
+    agent any
+
+    stages{
+        stage('init'){
+            steps{
+                sh "/usr/bin/packer init packer.pkr.hcl"
+            }
+        }
+        stage('validate'){
+            steps{
+                sh "/usr/bin/packer validate packer.pkr.hcl"
+            }
+            
+        }
+        stage('build and test packer build') {
+            steps {
+                sh "/usr/bin/packer build -debug packer.pkr.hcl"
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

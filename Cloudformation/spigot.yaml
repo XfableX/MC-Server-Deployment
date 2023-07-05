@@ -1,0 +1,94 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Minecraft Spigot Server'
+
+
+Parameters:
+  AMI:
+    Description: AMI for the stack
+    Type: AWS::EC2::Image::Id
+  Release:
+    Description: The release to grab
+    Type: String
+   
+Resources:
+  SpitgotVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+
+  SpigotLoadBalancerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: SpigotLBSecGroup
+      GroupDescription: SpigotLBSecGroup
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/32
+          FromPort: 25565
+          ToPort: 25565
+          IpProtocol: tcp
+      VpcId: !Ref SpigotVPC
+  SpigotSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: SpigotSecGroup
+      GroupDescription: SpigotSecGroup
+      SecurityGroupIngress:
+        - CidrIp: 10.0.0.0/16
+          IpProtocol: "-1"
+      VpcId: !Ref SpigotVPC
+  SpigotListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties: 
+      DefaultActions: 
+        - Type: Forward
+          TargetGroupArn: !Ref SpigotTargetGroup
+      LoadBalancerArn: String
+      Port: 25565
+      Protocol: TCP
+  SpigotLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties: 
+      IpAddressType: ipv4
+      Name: SpigotLoadBalancer
+      SecurityGroups: 
+        - !Ref SpigotLoadBalancerSecurityGroup
+      SubnetMappings: 
+        - AllocationId: eipalloc-0359a1de15a0bec4f
+          SubnetId: subnet-42c51c1b
+      Type: network
+  SpigotTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties: 
+      Name: SpigotTargetGroup
+      Port: 25565
+      Protocol: TCP
+      Targets: 
+        - Id: !Ref SpigotInstance
+      VpcId: !Ref SpigotVPC
+  SpigotInstance:
+    Type: AWS::EC2::Instance
+    Properties: 
+      IamInstanceProfile: String
+      ImageId: !Ref AMI
+      InstanceType: r6g.medium
+      KeyName: Jenkins
+      Monitoring: true
+      SecurityGroupIds: 
+        - !Ref SpigotSecurityGroup
+      SubnetId: subnet-42c51c1b
+      UserData: 
+        Fn::Base64:
+          !Sub |
+            #!/bin/bash -ex
+            exec >> /var/log/userdata.log
+            exec 2>%1
+            source /etc/profile
+
+            /bin/cfn-init -v --stack ${AWS::StackId} --resource SpigotInstance --region ${AWS::Region}
+
+            LOCAL_ARTIFACT="/app/deploy/tmp/artifact.tar.gz"
+            aws s3 cp s3://fablemc-artifacts/MC-Server-deployment/${!Ref Release} $LOCAL_ARTIFACT
+            tar -zxvf $LOCAL_ARTIFACT -C  /app/deploy
+            ansible-playbook -i localhost, --connection=local -u ec2-user -t spigot /app/deploy/ansible/spigot-server.yaml --extra-vars "" -v
+

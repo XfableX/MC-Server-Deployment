@@ -1,0 +1,6 @@
+- name: Environment settings for server
+  hosts: all
+  become: yes
+  become_user: root
+  roles:
+  - spigot

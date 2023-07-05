@@ -1,0 +1,12 @@
+- name: copy eula and directory
+  copy:
+    src: Spigot
+    dest: /bin/Spigot
+
+- name: Download Spigot
+  get_url:
+    url: https://download.getbukkit.org/spigot/spigot-1.19.4.jar
+    dest: /bin/Spigot/server.jar
+
+- name: Start server
+  command: /bin/Spigot/server.jar 

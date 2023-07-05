@@ -1,0 +1,6 @@
+boto3
+argparse
+os
+yaml
+tarfile
+glob
