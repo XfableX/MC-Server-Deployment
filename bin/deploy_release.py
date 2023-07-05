@@ -8,7 +8,7 @@ import threading
 from botocore.exceptions import ClientError
 
 parser = argparse.ArgumentParser(description="Create a release for MC")
-parser.add_argument("-r", "--release-Name", required=True)
+parser.add_argument("-r", "--release-name", required=True)
 parser.add_argument("-a", "--ami-id", required=True)
 parser.add_argument("-t", "--template", required=True)
 
