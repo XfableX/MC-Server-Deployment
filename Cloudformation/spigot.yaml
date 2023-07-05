@@ -17,6 +17,18 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: 10.0.0.0/16
+  Gateway:
+    Type: AWS::EC2::InternetGateway
+    Properties: 
+      Tags: 
+        - Key: Name
+          Value: gateway
+  GatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties: 
+      InternetGatewayId: !Ref Gateway
+      VpcId: !Ref SpigotVPC
+
   Subnet1:
     Type: AWS::EC2::Subnet
     Properties: 
