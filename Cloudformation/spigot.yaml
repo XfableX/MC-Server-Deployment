@@ -13,21 +13,6 @@ Parameters:
     
    
 Resources:
-  SpigotVPC:
-    Type: AWS::EC2::VPC
-    Properties:
-      CidrBlock: 172.0.0.0/8
-  Gateway:
-    Type: AWS::EC2::InternetGateway
-    Properties: 
-      Tags: 
-        - Key: Name
-          Value: gateway
-  GatewayAttachment:
-    Type: AWS::EC2::VPCGatewayAttachment
-    Properties: 
-      InternetGatewayId: !Ref Gateway
-      VpcId: !Ref SpigotVPC
   SpigotLoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -38,7 +23,7 @@ Resources:
           FromPort: 25565
           ToPort: 25565
           IpProtocol: tcp
-      VpcId: !Ref SpigotVPC
+      VpcId: vpc-a673b5c2
   SpigotSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -47,7 +32,7 @@ Resources:
       SecurityGroupIngress:
         - CidrIp: 172.0.0.0/8
           IpProtocol: "-1"
-      VpcId: !Ref SpigotVPC
+      VpcId: vpc-a673b5c2
   SpigotListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties: 
@@ -76,7 +61,7 @@ Resources:
       Protocol: TCP
       Targets: 
         - Id: !Ref SpigotInstance
-      VpcId: !Ref SpigotVPC
+      VpcId: vpc-a673b5c2
   SpigotInstance:
     Type: AWS::EC2::Instance
     Properties: 
