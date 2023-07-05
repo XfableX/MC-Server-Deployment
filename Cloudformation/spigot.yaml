@@ -17,7 +17,18 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: 10.0.0.0/16
-
+  Subnet1:
+    Type: AWS::EC2::Subnet
+    Properties: 
+      AvailabilityZoneId: ap-southeast-2b
+      CidrBlock: 10.0.0.0/16
+      VpcId: !Ref SpigotVPC
+  Subnet2:
+    Type: AWS::EC2::Subnet
+    Properties: 
+      AvailabilityZoneId: ap-southeast-2a
+      CidrBlock: 10.0.0.0/16
+      VpcId: !Ref SpigotVPC
   SpigotLoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -55,6 +66,9 @@ Resources:
       SecurityGroups: 
         - !Ref SpigotLoadBalancerSecurityGroup
       Type: application
+      Subnets:
+        - !Ref Subnet1
+        - !Ref Subnet2
   SpigotTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties: 
