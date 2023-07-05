@@ -18,7 +18,7 @@ pipeline{
         }
         stage('build and test packer build') {
             steps {
-                sh "./bin/build-release.py --release-name ${release}"
+                sh "sudo ./bin/build-release.py --release-name ${release}"
             }
         }
     }
