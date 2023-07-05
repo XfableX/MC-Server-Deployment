@@ -16,18 +16,18 @@ Resources:
   SpigotVPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: 10.0.0.0/16
+      CidrBlock: 10.0.0.0/24
   Subnet1:
     Type: AWS::EC2::Subnet
     Properties: 
       AvailabilityZoneId: apse2-az2
-      CidrBlock: 10.0.0.0/16
+      CidrBlock: 10.0.0.0/24
       VpcId: !Ref SpigotVPC
   Subnet2:
     Type: AWS::EC2::Subnet
     Properties: 
       AvailabilityZoneId: apse2-az1
-      CidrBlock: 10.0.0.0/16
+      CidrBlock: 10.0.1.0/24
       VpcId: !Ref SpigotVPC
   SpigotLoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
