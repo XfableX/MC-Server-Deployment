@@ -23,6 +23,7 @@ def s3_put_object(key, body):
         "Key": key,
         "Body": body
     }
+    print(payload)
     s3.put_object(**payload)
 
 
