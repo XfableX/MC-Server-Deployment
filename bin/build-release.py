@@ -39,7 +39,7 @@ s3_put_object(os.path.join(release_prefix,artifact_filename), local_artifact_fil
 bin_filename = "bin.tar.gz"
 local_bin_filename = os.path.join("/tmp/",bin_filename)
 
-s3_put_object(os.path.join(release_prefix, "deploy-release.py"),"bin/deploy-release.py")
+s3_put_object(os.path.join(release_prefix, "deploy_release.py"),"bin/deploy_release.py")
 
 for template in glob.glob("Cloudformation/*"):
     s3_put_object(os.path.join(release_prefix, "templates", os.path.basename(template)), open(template, "rb"))
