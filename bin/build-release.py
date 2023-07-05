@@ -6,7 +6,7 @@ import tarfile
 import glob
 
 parser = argparse.ArgumentParser(description="Create a release for MC")
-parser.add_argument("-r", "--release-Name", required=True)
+parser.add_argument("-r", "--release-name", required=True)
 
 args = parser.parse_args()
 

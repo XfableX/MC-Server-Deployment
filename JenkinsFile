@@ -1,4 +1,3 @@
-@Library('jenkins-shared-libraries')
 
 def release = "$env.BRANCH_NAME"
 
