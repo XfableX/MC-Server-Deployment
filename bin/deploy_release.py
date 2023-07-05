@@ -23,7 +23,7 @@ template_vars = {
     "release": args.release_name
 }
 
-session = boto3.Session()
+session = boto3.Session(region_name='ap-southeast-2')
 s3 = session.client("s3")
 cfn = session.client("cloudformation")
 
