@@ -39,7 +39,7 @@ Resources:
       DefaultActions: 
         - Type: Forward
           TargetGroupArn: !Ref SpigotTargetGroup
-      LoadBalancerArn: String
+      LoadBalancerArn: !Ref SpigotLoadBalancer
       Port: 25565
       Protocol: TCP
   SpigotLoadBalancer:
