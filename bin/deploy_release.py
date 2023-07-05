@@ -14,9 +14,9 @@ parser.add_argument("-t", "--template", required=True)
 
 args = parser.parse_args()
 
-release_bucket = "fablemc-artifacts"
+release_bucket = "https://boto3-artifact-453112952343.s3-accesspoint.ap-southeast-2.amazonaws.com/"
 release_prefix = os.path.join("MC-Server-deployment/",args.release_name)
-s3_release_url = "s3://{0}/{1}".format(release_bucket, release_prefix)
+s3_release_url = "{0}/{1}".format(release_bucket, release_prefix)
 
 template_vars = [
     {
