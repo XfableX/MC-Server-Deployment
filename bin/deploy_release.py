@@ -67,7 +67,6 @@ def deploy_stack(cf_stack_name, s3_url):
         print("Waiting for {0} to be ready".format(cf_stack_name))
         waiter.wait(stackname=cf_stack_name)
     except Exception as e:
-        thread_errors.set()
         raise e
     
 deploy_stack(args.template, s3_release_url)
