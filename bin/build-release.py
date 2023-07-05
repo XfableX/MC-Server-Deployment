@@ -25,7 +25,7 @@ def s3_put_object(key, body):
     }
     print(payload)
     s3.put_object(**payload)
-print(session.get_credentials())
+print(session.profile_name)
 print(session.available_profiles)
 
 artifact_filename = "ansible_bootstrap.tar.gz"
