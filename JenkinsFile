@@ -1,3 +1,7 @@
+@Library('jenkins-shared-libraries')
+
+def release = "$env.BRANCH_NAME"
+
 pipeline{
     agent any
 
@@ -15,7 +19,7 @@ pipeline{
         }
         stage('build and test packer build') {
             steps {
-                sh "/usr/bin/packer build -debug packer.pkr.hcl"
+                sh "./bin/build-release.py --release-name ${release}"
             }
         }
     }
