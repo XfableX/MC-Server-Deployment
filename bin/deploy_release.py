@@ -18,10 +18,10 @@ release_bucket = "fablemc-artifacts"
 release_prefix = os.path.join("MC-Server-deployment/",args.release_name)
 s3_release_url = "s3://{0}/{1}".format(release_bucket, release_prefix)
 
-template_vars = {
-    "AMI": args.ami_id,
-    "release": args.release_name
-}
+template_vars = [
+    ("AMI": args.ami_id),
+    ("release": args.release_name)
+]
 
 session = boto3.Session(region_name='ap-southeast-2')
 s3 = session.client("s3")
@@ -67,6 +67,7 @@ def deploy_stack(cf_stack_name, s3_url):
         print("Waiting for {0} to be ready".format(cf_stack_name))
         waiter.wait(stackname=cf_stack_name)
     except Exception as e:
+        print(e)
         raise e
     
 deploy_stack(args.template, s3_release_url)
