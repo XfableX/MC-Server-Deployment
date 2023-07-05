@@ -10,6 +10,7 @@ Parameters:
   Release:
     Description: The release to grab
     Type: String
+    
    
 Resources:
   SpigotVPC:
@@ -56,7 +57,7 @@ Resources:
       SubnetMappings: 
         - AllocationId: eipalloc-0359a1de15a0bec4f
           SubnetId: subnet-42c51c1b
-      Type: network
+      Type: application
   SpigotTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties: 
