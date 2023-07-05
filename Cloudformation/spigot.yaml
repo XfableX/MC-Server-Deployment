@@ -16,7 +16,7 @@ Resources:
   SpigotVPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: 10.0.0.0/16
+      CidrBlock: 172.0.0.0/8
   Gateway:
     Type: AWS::EC2::InternetGateway
     Properties: 
@@ -27,19 +27,6 @@ Resources:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties: 
       InternetGatewayId: !Ref Gateway
-      VpcId: !Ref SpigotVPC
-
-  Subnet1:
-    Type: AWS::EC2::Subnet
-    Properties: 
-      AvailabilityZoneId: apse2-az2
-      CidrBlock: 10.0.0.0/24
-      VpcId: !Ref SpigotVPC
-  Subnet2:
-    Type: AWS::EC2::Subnet
-    Properties: 
-      AvailabilityZoneId: apse2-az1
-      CidrBlock: 10.0.1.0/24
       VpcId: !Ref SpigotVPC
   SpigotLoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -58,7 +45,7 @@ Resources:
       GroupName: SpigotSecGroup
       GroupDescription: SpigotSecGroup
       SecurityGroupIngress:
-        - CidrIp: 10.0.0.0/24
+        - CidrIp: 172.0.0.0/8
           IpProtocol: "-1"
       VpcId: !Ref SpigotVPC
   SpigotListener:
@@ -79,8 +66,8 @@ Resources:
         - !Ref SpigotLoadBalancerSecurityGroup
       Type: application
       Subnets:
-        - !Ref Subnet1
-        - !Ref Subnet2
+        - subnet-42c51c1b
+        - subnet-2832875e
   SpigotTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties: 
@@ -93,7 +80,6 @@ Resources:
   SpigotInstance:
     Type: AWS::EC2::Instance
     Properties: 
-      IamInstanceProfile: String
       ImageId: !Ref AMI
       InstanceType: r6g.medium
       KeyName: Jenkins
