@@ -44,7 +44,7 @@ def stack_exists(stack_name):
                 return True
     return False
 def deploy_stack(cf_stack_name, s3_url):
-    cf_stack_template_s3_url = "{0}/templates/{1}".format(s3_release_url, cf_stack_name)
+    cf_stack_template_s3_url = "{0}/templates/{1}.yaml".format(s3_release_url, cf_stack_name)
     print(cf_stack_template_s3_url)
     cf_payload = {
         "StackName":cf_stack_name,
