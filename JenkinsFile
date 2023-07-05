@@ -8,7 +8,7 @@ pipeline{
         stage('init'){
             steps{
                 sh "echo init"
-                sh "pip install --user -r requirements.txt"
+                sh "python -m pip install --user -r requirements.txt"
             }
         }
         stage('validate'){
