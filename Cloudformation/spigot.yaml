@@ -54,9 +54,6 @@ Resources:
       Name: SpigotLoadBalancer
       SecurityGroups: 
         - !Ref SpigotLoadBalancerSecurityGroup
-      SubnetMappings: 
-        - AllocationId: eipalloc-0359a1de15a0bec4f
-          SubnetId: subnet-42c51c1b
       Type: application
   SpigotTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -77,7 +74,6 @@ Resources:
       Monitoring: true
       SecurityGroupIds: 
         - !Ref SpigotSecurityGroup
-      SubnetId: subnet-42c51c1b
       UserData: 
         Fn::Base64:
           !Sub |
