@@ -37,7 +37,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::Listener
     Properties: 
       DefaultActions: 
-        - Type: Forward
+        - Type: forward
           TargetGroupArn: !Ref SpigotTargetGroup
       LoadBalancerArn: !Ref SpigotLoadBalancer
       Port: 25565
