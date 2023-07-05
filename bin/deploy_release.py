@@ -41,7 +41,7 @@ def deploy_stack(cf_stack_name, s3_url):
     cf_stack_template_s3_url = "{0}/templates/{1}".format(s3_release_url, cf_stack_name)
 
     cf_payload = {
-        "Stackname":cf_stack_name,
+        "StackName":cf_stack_name,
         "TemplateURL": cf_stack_template_s3_url,
         "Parameters": template_vars,
     }
