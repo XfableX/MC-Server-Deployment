@@ -10,7 +10,7 @@ parser.add_argument("-r", "--release-name", required=True)
 
 args = parser.parse_args()
 
-release_bucket = "fablemc-artifactss"
+release_bucket = "fablemc-artifacts"
 release_prefix = os.path.join("MC-Server-deployment/",args.release_name)
 
 session = boto3.Session(region_name='ap-southeast-2')
