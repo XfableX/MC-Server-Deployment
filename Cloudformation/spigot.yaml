@@ -86,6 +86,7 @@ Resources:
       InstanceType: r6g.medium
       KeyName: Jenkins
       Monitoring: true
+      SubnetId: !Ref Subnet1
       SecurityGroupIds: 
         - !Ref SpigotSecurityGroup
       UserData: 
