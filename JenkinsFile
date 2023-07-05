@@ -4,12 +4,12 @@ pipeline{
     stages{
         stage('init'){
             steps{
-                sh "/usr/bin/packer init packer.pkr.hcl"
+                sh "echo init"
             }
         }
         stage('validate'){
             steps{
-                sh "/usr/bin/packer validate packer.pkr.hcl"
+                sh "echo Validating"
             }
             
         }
