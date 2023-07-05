@@ -71,7 +71,7 @@ def deploy_stack(cf_stack_name, s3_url):
             stack_result = cfn.create_stack(**cf_payload)
             waiter = cfn.get_waiter("stack_create_complete")
         print("Waiting for {0} to be ready".format(cf_stack_name))
-        waiter.wait(stackname=cf_stack_name)
+        waiter.wait(StackName=cf_stack_name)
     except Exception as e:
         print(e)
         raise e
