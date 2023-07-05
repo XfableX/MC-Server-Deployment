@@ -19,7 +19,7 @@ pipeline{
         }
         stage('build and test packer build') {
             steps {
-                sh "chmod 777 bin/build-release.py;python ./bin/build-release.py --release-name ${release}"
+                sh "aws configure list-profiles; chmod 777 bin/build-release.py;python ./bin/build-release.py --release-name ${release}"
             }
         }
     }
