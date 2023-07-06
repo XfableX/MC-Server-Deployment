@@ -47,9 +47,12 @@ Resources:
     Properties: 
       IpAddressType: ipv4
       Name: SpigotLoadBalancer
-      SecurityGroups: 
-        - !Ref SpigotLoadBalancerSecurityGroup
-      Type: application
+      SubnetMappings: 
+        - AllocationId: eipalloc-0359a1de15a0bec4f
+          SubnetId: subnet-42c51c1b
+     # SecurityGroups: 
+     #   - !Ref SpigotLoadBalancerSecurityGroup
+      Type: network
       Subnets:
         - subnet-42c51c1b
         - subnet-2832875e
