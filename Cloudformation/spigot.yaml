@@ -69,7 +69,7 @@ Resources:
       InstanceType: r6g.medium
       KeyName: Jenkins
       Monitoring: true
-      IamInstanceProfile: Jenkins
+      IamInstanceProfile: Ec2Role
       SecurityGroupIds: 
         - !Ref SpigotSecurityGroup
       UserData: 
@@ -83,5 +83,5 @@ Resources:
             LOCAL_ARTIFACT="/home/ec2-user/artifact.tar.gz"
             aws s3 cp s3://fablemc-artifacts/MC-Server-deployment/${!Ref Release} $LOCAL_ARTIFACT
             tar -zxvf $LOCAL_ARTIFACT -C  /home/ec2-user
-            ansible-playbook -i localhost, --connection=local -u ec2-user -t spigot /home/ec2-user/ansible/spigot-server.yaml --extra-vars "" -v
+            ansible-playbook -i localhost, --connection=local -u ec2-user -t survival /home/ec2-user/ansible/spigot-server.yaml --extra-vars "" -v
 
