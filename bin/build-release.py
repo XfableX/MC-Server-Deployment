@@ -34,7 +34,7 @@ local_artifact_filename = os.path.join("/tmp/",artifact_filename)
 with tarfile.open(local_artifact_filename, "w:gz") as artifact:
     artifact.add('Ansible')
 
-s3_put_object(os.path.join(release_prefix,artifact_filename), local_artifact_filename)
+s3_put_object(os.path.join(release_prefix,artifact_filename), open(local_artifact_filename, "rb"))
 
 bin_filename = "bin.tar.gz"
 local_bin_filename = os.path.join("/tmp/",bin_filename)

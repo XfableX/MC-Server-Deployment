@@ -69,6 +69,7 @@ Resources:
       InstanceType: r6g.medium
       KeyName: Jenkins
       Monitoring: true
+      IamInstanceProfile: Jenkins
       SecurityGroupIds: 
         - !Ref SpigotSecurityGroup
       UserData: 
@@ -79,10 +80,8 @@ Resources:
             exec 2>%1
             source /etc/profile
 
-            /bin/cfn-init -v --stack ${AWS::StackId} --resource SpigotInstance --region ${AWS::Region}
-
-            LOCAL_ARTIFACT="/app/deploy/tmp/artifact.tar.gz"
+            LOCAL_ARTIFACT="/home/ec2-user/artifact.tar.gz"
             aws s3 cp s3://fablemc-artifacts/MC-Server-deployment/${!Ref Release} $LOCAL_ARTIFACT
-            tar -zxvf $LOCAL_ARTIFACT -C  /app/deploy
-            ansible-playbook -i localhost, --connection=local -u ec2-user -t spigot /app/deploy/ansible/spigot-server.yaml --extra-vars "" -v
+            tar -zxvf $LOCAL_ARTIFACT -C  /home/ec2-user
+            ansible-playbook -i localhost, --connection=local -u ec2-user -t spigot /home/ec2-user/ansible/spigot-server.yaml --extra-vars "" -v
 
