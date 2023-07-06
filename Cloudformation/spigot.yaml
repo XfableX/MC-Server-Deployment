@@ -53,9 +53,6 @@ Resources:
      # SecurityGroups: 
      #   - !Ref SpigotLoadBalancerSecurityGroup
       Type: network
-      Subnets:
-        - subnet-42c51c1b
-        - subnet-2832875e
   SpigotTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties: 
