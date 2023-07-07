@@ -30,8 +30,10 @@ Resources:
       GroupName: SpigotSecGroup
       GroupDescription: SpigotSecGroup
       SecurityGroupIngress:
-        - CidrIp: 172.0.0.0/8
-          IpProtocol: "-1"
+        - CidrIp: 0.0.0.0/0
+          FromPort: 25565
+          ToPort: 25565
+          IpProtocol: tcp
       VpcId: vpc-a673b5c2
   SpigotListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
