@@ -1,0 +1,45 @@
+pipeline:
+  name: MinecraftPipeline
+  identifier: MinecraftPipeline
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.Github_OAuth_1701830430592
+        repoName: XfableX/MC-Server-Deployment
+        build: <+input>
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_2
+                  identifier: Run_2
+                  spec:
+                    shell: Bash
+                    command: echo "FUCK YEAH"
+        variables:
+          - name: Release
+            type: String
+            description: ""
+            required: true
+            value: <+input>
+        when:
+          pipelineStatus: All
+        delegateSelectors:
+          - harness-slave

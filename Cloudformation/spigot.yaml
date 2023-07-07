@@ -91,7 +91,7 @@ Resources:
             sudo yum -y install make
             sudo yum -y install rpm-build
             sudo make rpm
-            sudo yum -y install ./build/amazon-efs-utils*rpm
+            sudo yum -y install /tmp/efs-utils/build/amazon-efs-utils*rpm
             
             TAG_VALUE="${Release}"
 
