@@ -9,4 +9,4 @@
     dest: /usr/local/ec2-user/Spigot/server.jar
 
 - name: Start server
-  command: /usr/local/ec2-user/server.jar 
+  command: /usr/local/ec2-user/Spitgot/server.jar 
