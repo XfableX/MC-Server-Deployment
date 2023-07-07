@@ -10,4 +10,6 @@
 - name: fix permissions
   command: sudo chmod 777 /usr/local/ec2-user/Spigot/server.jar 
 - name: Start server
-  command: sudo java -jar /usr/local/ec2-user/Spigot/server.jar -Xms8G -Xmx8G
+  command: sudo java -Xms8G -Xmx8G -jar /usr/local/ec2-user/Spigot/server.jar 
+  args:
+    chdir: /usr/local/ec2-user/Spigot/
