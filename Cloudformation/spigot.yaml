@@ -91,8 +91,10 @@ Resources:
             ansible-playbook -i localhost, --connection=local -u ec2-user -t survival /home/ec2-user/Ansible/spigot-server.yml --extra-vars "" -v
 
 
-            TAG_NAME="Release"
+            TAG_NAME="${Release}"
             INSTANCE_ID="`curl http://instance-data/latest/meta-data/instance-id`"
             REGION="`curl http://instance-data/latest/meta-data/placement/availability-zone | sed -e 's:\([0-9][0-9]*\)[a-z]*\$:\\1:'`"
             TAG_VALUE="`aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCE_ID" "Name=key,Values=$TAG_NAME" --region $REGION --output=text | cut -f5`"
+
+            EFS=$(aws efs describe-file-systems  --query "FileSystems[?Tags[?Value=='$TAG_VALUE']].FileSystemId" | sed 's/[]["]//g')
 

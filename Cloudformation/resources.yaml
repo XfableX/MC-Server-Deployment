@@ -9,9 +9,27 @@ Parameters:
 
 
 Resources:
+  efsSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: efsSecGroup
+      GroupDescription: SpigotSecGroup
+      SecurityGroupIngress:
+        - CidrIp: 172.0.0.0/8
+          IpProtocol: "-1"
+      VpcId: vpc-a673b5c2
+ 
+  MountTargetResource1:
+    Type: AWS::EFS::MountTarget
+    Properties:
+      FileSystemId: !Ref MinecraftDrive
+      SubnetId: subnet-42c51c1b
+      SecurityGroups:
+      - !Ref efsSecurityGroup
   MinecraftDrive:
     Type: AWS::EFS::FileSystem
     Properties: 
+
       BackupPolicy: 
         Status: "ENABLED"
       FileSystemTags: 
