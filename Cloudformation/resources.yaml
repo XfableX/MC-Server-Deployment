@@ -3,9 +3,6 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: Common resources
 
 Parameters:
-  AMI:
-    Description: Not required
-    Type: String
   Release:
     Description: The release to grab
     Type: String

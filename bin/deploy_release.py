@@ -9,7 +9,7 @@ from botocore.exceptions import ClientError
 
 parser = argparse.ArgumentParser(description="Create a release for MC")
 parser.add_argument("-r", "--release-name", required=True)
-parser.add_argument("-a", "--ami-id", required=True)
+parser.add_argument("-a", "--ami-id", required=False)
 parser.add_argument("-t", "--template", required=True)
 
 args = parser.parse_args()
@@ -20,14 +20,17 @@ s3_release_url = "{0}/{1}".format(release_bucket, release_prefix)
 
 template_vars = [
     {
-        'ParameterKey':"AMI",
-        'ParameterValue': args.ami_id
-        },
-    {
         'ParameterKey':"Release",
         'ParameterValue': args.release_name
         }
 ]
+if args.ami_id is not None:
+    template_vars.append(
+    {
+            'ParameterKey':"AMI",
+            'ParameterValue': args.ami_id
+            }
+    )
 
 session = boto3.Session(region_name='ap-southeast-2')
 s3 = session.client("s3")
