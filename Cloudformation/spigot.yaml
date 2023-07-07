@@ -88,7 +88,7 @@ Resources:
             TAG_VALUE="${Release}"
 
             EFS=$(aws efs describe-file-systems  --query "FileSystems[?Tags[?Value=='$TAG_VALUE']].FileSystemId" | sed 's/[]["]//g')
-            mount -t efs $EFS /usr/local/ec2-user/Spigot/world
+            mount -t efs $EFS /usr/local/ec2-user/Spigot/
 
             LOCAL_ARTIFACT="/home/ec2-user/ansible_bootstrap.tar.gz"
             aws s3 cp s3://fablemc-artifacts/MC-Server-deployment/${Release}/ansible_bootstrap.tar.gz $LOCAL_ARTIFACT
