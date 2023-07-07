@@ -85,6 +85,14 @@ Resources:
             exec 2>%1
             source /etc/profile
 
+            sudo yum -y install git
+            git clone https://github.com/aws/efs-utils /tmp/
+            cd /tmp/efs-utils
+            sudo yum -y install make
+            sudo yum -y install rpm-build
+            sudo make rpm
+            sudo yum -y install ./build/amazon-efs-utils*rpm
+            
             TAG_VALUE="${Release}"
 
             EFS=$(aws efs describe-file-systems  --query "FileSystems[?Tags[?Value=='$TAG_VALUE']].FileSystemId" | sed 's/[]["]//g')
