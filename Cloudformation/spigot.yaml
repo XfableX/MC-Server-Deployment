@@ -81,7 +81,7 @@ Resources:
             source /etc/profile
 
             LOCAL_ARTIFACT="/home/ec2-user/ansible_bootstrap.tar.gz"
-            aws s3 cp s3://fablemc-artifacts/MC-Server-deployment/${!Ref Release}/ansible_bootstrap.tar.gz $LOCAL_ARTIFACT
+            aws s3 cp s3://fablemc-artifacts/MC-Server-deployment/${Release}/ansible_bootstrap.tar.gz $LOCAL_ARTIFACT
             tar -zxvf $LOCAL_ARTIFACT -C  /home/ec2-user
             ansible-playbook -i localhost, --connection=local -u ec2-user -t survival /home/ec2-user/Ansible/spigot-server.yml --extra-vars "" -v
 
