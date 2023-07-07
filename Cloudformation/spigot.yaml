@@ -67,6 +67,9 @@ Resources:
   SpigotInstance:
     Type: AWS::EC2::Instance
     Properties: 
+      Tags:
+           - Value: !Ref Release
+             Key: Release
       ImageId: !Ref AMI
       InstanceType: r6g.medium
       KeyName: Jenkins
@@ -86,4 +89,10 @@ Resources:
             aws s3 cp s3://fablemc-artifacts/MC-Server-deployment/${Release}/ansible_bootstrap.tar.gz $LOCAL_ARTIFACT
             tar -zxvf $LOCAL_ARTIFACT -C  /home/ec2-user
             ansible-playbook -i localhost, --connection=local -u ec2-user -t survival /home/ec2-user/Ansible/spigot-server.yml --extra-vars "" -v
+
+
+            TAG_NAME="Release"
+            INSTANCE_ID="`curl http://instance-data/latest/meta-data/instance-id`"
+            REGION="`curl http://instance-data/latest/meta-data/placement/availability-zone | sed -e 's:\([0-9][0-9]*\)[a-z]*\$:\\1:'`"
+            TAG_VALUE="`aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCE_ID" "Name=key,Values=$TAG_NAME" --region $REGION --output=text | cut -f5`"
 

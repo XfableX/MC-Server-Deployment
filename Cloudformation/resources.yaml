@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Common resources
+
+Parameters:
+  AMI:
+    Description: AMI for the stack
+    Type: AWS::EC2::Image::Id
+  Release:
+    Description: The release to grab
+    Type: String
+
+
+Resources:
+  MinecraftDrive:
+    Type: AWS::EFS::FileSystem
+    Properties: 
+      BackupPolicy: 
+        Status: "ENABLED"
+      FileSystemTags: 
+        - Key: Release
+          Value: !Ref Release
+
+
