@@ -75,13 +75,13 @@ Resources:
       UserData: 
         Fn::Base64:
           !Sub |
-            #!/bin/bash -ex
+            #!/bin/bash
             exec >> /var/log/userdata.log
             exec 2>%1
             source /etc/profile
 
-            LOCAL_ARTIFACT="/home/ec2-user/artifact.tar.gz"
-            aws s3 cp s3://fablemc-artifacts/MC-Server-deployment/${!Ref Release} $LOCAL_ARTIFACT
+            LOCAL_ARTIFACT="/home/ec2-user/ansible_bootstrap.tar.gz"
+            aws s3 cp s3://fablemc-artifacts/MC-Server-deployment/${!Ref Release}/ansible_bootstrap.tar.gz $LOCAL_ARTIFACT
             tar -zxvf $LOCAL_ARTIFACT -C  /home/ec2-user
-            ansible-playbook -i localhost, --connection=local -u ec2-user -t survival /home/ec2-user/ansible/spigot-server.yaml --extra-vars "" -v
+            ansible-playbook -i localhost, --connection=local -u ec2-user -t survival /home/ec2-user/Ansible/spigot-server.yml --extra-vars "" -v
 
