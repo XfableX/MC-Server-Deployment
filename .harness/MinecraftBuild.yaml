@@ -1,0 +1,106 @@
+pipeline:
+  name: MinecraftBuild
+  identifier: MinecraftBuild
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: Build
+        identifier: Build
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Build py
+                  identifier: Build_py
+                  spec:
+                    shell: Sh
+                    command: |-
+                      chmod 777 bin/build-release.py;
+                      pip3 install -r requirements.txt;
+                      python3 ./bin/build-release.py --release-name harness --access-key <+pipeline.variables.AccessKey> --access-secret <+pipeline.variables.AccessSecret>;
+        delegateSelectors:
+          - uwuntu
+    - stage:
+        name: Deploy
+        identifier: Deploy2
+        description: ""
+        type: Deployment
+        spec:
+          deploymentType: Ssh
+          service:
+            serviceRef: MC_Server_Artifacts
+            serviceInputs:
+              serviceDefinition:
+                type: Ssh
+                spec:
+                  artifacts:
+                    primary:
+                      primaryArtifactRef: deployPython
+          environment:
+            environmentRef: Production
+            deployToAll: false
+            infrastructureDefinitions:
+              - identifier: Ubuntu
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          echo "<+pipeline.variables.JenkinsPem>" >> /tmp/jenkins.pem
+                          chmod 400 /tmp/jenkins.pem
+                          ssh ubuntu@52.65.215.15 -o StrictHostKeychecking=no -i /tmp/jenkins.pem  "aws configure set aws_access_key_id <+pipeline.variables.AccessKey>; aws configure set aws_secret_access_key <+pipeline.variables.AccessSecret>; aws s3 cp s3://fablemc-artifacts/MC-Server-deployment/harness/deploy_release.py /tmp/deploy_release.py; python3 /tmp/deploy_release.py --release-name harness --ami-id ami-07cfa74db947cbc73 --template spigot"
+                    environmentVariables: []
+                    outputVariables: []
+                    delegateSelectors:
+                      - uwuntu
+                  timeout: 10m
+            rollbackSteps: []
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback
+  properties:
+    ci:
+      codebase:
+        connectorRef: BetterGithub
+        repoName: MC-Server-Deployment
+        build: <+input>
+  variables:
+    - name: AccessKey
+      type: Secret
+      description: ""
+      required: false
+      value: AWSAccessKey
+    - name: AccessSecret
+      type: Secret
+      description: ""
+      required: false
+      value: AWSAccessSecret
+    - name: JenkinsPem
+      type: Secret
+      description: ""
+      required: false
+      value: JenkinsPEM
