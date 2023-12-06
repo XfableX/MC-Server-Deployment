@@ -7,13 +7,15 @@ import glob
 
 parser = argparse.ArgumentParser(description="Create a release for MC")
 parser.add_argument("-r", "--release-name", required=True)
+parser.add_argument("-a", "--access-key", required=True)
+parser.add_argument("-s", "--access-secret", required=True)
 
 args = parser.parse_args()
 
 release_bucket = "fablemc-artifacts"
 release_prefix = os.path.join("MC-Server-deployment/",args.release_name)
 
-session = boto3.Session(region_name='ap-southeast-2')
+session = boto3.Session(region_name='ap-southeast-2', aws_access_key_id=args.access_key, aws_secret_access_key=args.access_secret)
 s3 = session.client("s3")
 cfn = session.client("cloudformation")
 
