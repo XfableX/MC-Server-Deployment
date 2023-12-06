@@ -82,6 +82,50 @@ pipeline:
                 - AllErrors
               action:
                 type: StageRollback
+    - stage:
+        name: Github approval
+        identifier: Github_approval
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: ShellScript
+                  name: ShellScript_1
+                  identifier: ShellScript_1
+                  spec:
+                    shell: Bash
+                    onDelegate: true
+                    source:
+                      type: Inline
+                      spec:
+                        script: |-
+                          # status="<+execution.steps.STEP_ID.status>"
+                          # name="harness-ci/tests"
+
+                          echo "Send Commit Status"
+
+                          if [[ "$status" == "SUCCEEDED" ]]; then
+                            state="success"
+                            description="$name scan passed for <+pipeline.properties.ci.codebase.repoName>"
+                          elif [[ "$status" == "PENDING" ]]; then
+                            state="pending"
+                            description="$name scan pending for <+pipeline.properties.ci.codebase.repoName>"
+                          else
+                            state="failure"
+                            description="$name scan failed for <+pipeline.properties.ci.codebase.repoName>"
+                          fi
+
+                          curl -i -u XfableX:<+pipeline.variables.Github> \
+                            -X POST \
+                            -H "Accept: application/vnd.github.v3+json" \
+                            https://api.github.com/repos/XfableX/<+pipeline.properties.ci.codebase.repoName>/statuses/<+codebase.commitSha> \
+                            -d "{\"state\":\"$state\",\"target_url\":\"<+pipeline.execution.url>\",\"description\":\"$description\",\"context\":\"$name\"}"
+                    environmentVariables: []
+                    outputVariables: []
+                  timeout: 10m
+        tags: {}
   properties:
     ci:
       codebase:
