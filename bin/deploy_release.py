@@ -30,7 +30,7 @@ if args.ami_id is not None:
             'ParameterKey':"AMI",
             'ParameterValue': args.ami_id
             }
-    )
+    ) 
 
 session = boto3.Session(region_name='ap-southeast-2')
 s3 = session.client("s3")
