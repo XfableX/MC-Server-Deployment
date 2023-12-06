@@ -79,4 +79,4 @@ def deploy_stack(cf_stack_name, s3_url):
         print(e)
         raise e
     
-deploy_stack(args.release_name, s3_release_url)
+deploy_stack(args.template, s3_release_url)
