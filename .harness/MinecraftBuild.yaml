@@ -37,6 +37,7 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
+                      echo https://api.github.com/repos/XfableX/MC-Server-Deployment/statuses/<+codebase.commitSha>
                       curl -L \
                         -X POST \ 
                         -H "Accept: application/vnd.github+json" \
