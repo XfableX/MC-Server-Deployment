@@ -37,6 +37,8 @@ pipeline:
                   spec:
                     shell: Sh
                     command: |-
+                      echo "<+codebase.commitSha>";
+
                       status="<+execution.steps.STEP_ID.status>"
                       name="harness-ci/tests"
 
