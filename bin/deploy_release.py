@@ -43,7 +43,7 @@ def stack_exists(stack_name):
         for stack in page["StackSummaries"]:
             if stack["StackStatus"] == 'DELETE_COMPLETE':
                 continue
-            if stack_name == stack["StackName"]:
+            if stack_name == stack["StackName"]: 
                 return True
     return False
 def deploy_stack(cf_stack_name, s3_url):
