@@ -1,0 +1,15 @@
+inputSet:
+  name: Branch
+  identifier: Branch
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: MinecraftBuild
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
+  object Object: pipeline.properties.ci.codebase

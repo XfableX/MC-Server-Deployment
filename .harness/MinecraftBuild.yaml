@@ -104,3 +104,8 @@ pipeline:
       description: ""
       required: false
       value: JenkinsPEM
+    - name: Github
+      type: Secret
+      description: ""
+      required: false
+      value: GitHub
