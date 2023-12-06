@@ -30,6 +30,34 @@ pipeline:
                       chmod 777 bin/build-release.py;
                       pip3 install -r requirements.txt;
                       python3 ./bin/build-release.py --release-name harness --access-key <+pipeline.variables.AccessKey> --access-secret <+pipeline.variables.AccessSecret>;
+              - step:
+                  type: Run
+                  name: Run_2
+                  identifier: Run_2
+                  spec:
+                    shell: Sh
+                    command: |-
+                      # status="<+execution.steps.STEP_ID.status>"
+                      # name="harness-ci/tests"
+
+                      echo "Send Commit Status"
+
+                      if [[ "$status" == "SUCCEEDED" ]]; then
+                        state="success"
+                        description="$name scan passed for <+pipeline.properties.ci.codebase.repoName>"
+                      elif [[ "$status" == "PENDING" ]]; then
+                        state="pending"
+                        description="$name scan pending for <+pipeline.properties.ci.codebase.repoName>"
+                      else
+                        state="failure"
+                        description="$name scan failed for <+pipeline.properties.ci.codebase.repoName>"
+                      fi
+
+                      curl -i -u XfableX:<+pipeline.variables.Github> \
+                        -X POST \
+                        -H "Accept: application/vnd.github.v3+json" \
+                        https://api.github.com/repos/XfableX/<+pipeline.properties.ci.codebase.repoName>/statuses/<+codebase.commitSha> \
+                        -d "{\"state\":\"$state\",\"target_url\":\"<+pipeline.execution.url>\",\"description\":\"$description\",\"context\":\"$name\"}"
         delegateSelectors:
           - uwuntu
     - stage:
