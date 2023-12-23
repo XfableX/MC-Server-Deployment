@@ -7,9 +7,6 @@ Parameters:
   AMI:
     Description: AMI for the stack
     Type: AWS::EC2::Image::Id
-  Release:
-    Description: The release to grab
-    Type: String
     
    
 Resources:
@@ -68,7 +65,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties: 
       Tags:
-           - Value: !Ref Release
+           - Value: HARNESS
              Key: Release
       ImageId: !Ref AMI
       InstanceType: r6g.medium
@@ -93,13 +90,13 @@ Resources:
             sudo make rpm
             sudo yum -y install /tmp/efs-utils/build/amazon-efs-utils*rpm
             
-            TAG_VALUE="${Release}"
+            TAG_VALUE="HARNESS"
 
             EFS=$(aws efs describe-file-systems  --query "FileSystems[?Tags[?Value=='$TAG_VALUE']].FileSystemId" | sed 's/[]["]//g')
             mount -t efs $EFS /usr/local/ec2-user/Spigot/
 
             LOCAL_ARTIFACT="/home/ec2-user/ansible_bootstrap.tar.gz"
-            aws s3 cp s3://fablemc-artifacts/MC-Server-deployment/${Release}/ansible_bootstrap.tar.gz $LOCAL_ARTIFACT
+            aws s3 cp s3://fablemc-artifacts/fablecomplicatedmc/s3upload/ansible_bootstrap.tar.gz $LOCAL_ARTIFACT
             tar -zxvf $LOCAL_ARTIFACT -C  /home/ec2-user
             ansible-playbook -i localhost, --connection=local -u ec2-user -t survival /home/ec2-user/Ansible/spigot-server.yml --extra-vars "" -v
 
