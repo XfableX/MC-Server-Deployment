@@ -47,8 +47,7 @@ Resources:
       IpAddressType: ipv4
       Name: ComplicatedLoadBalancer
       SubnetMappings: 
-        - AllocationId: eipalloc-0359a1de15a0bec4f
-          SubnetId: subnet-42c51c1b
+        - SubnetId: subnet-42c51c1b
      # SecurityGroups: 
      #   - !Ref SpigotLoadBalancerSecurityGroup
       Type: network
