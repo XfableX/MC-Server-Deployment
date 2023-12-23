@@ -13,8 +13,8 @@ Resources:
   SpigotLoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: SpigotLBSecGroup
-      GroupDescription: SpigotLBSecGroup
+      GroupName: ComplicatedLBSecGroup
+      GroupDescription: ComplicatedLBSecGroup
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/32
           FromPort: 25565
@@ -24,8 +24,8 @@ Resources:
   SpigotSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: SpigotSecGroup
-      GroupDescription: SpigotSecGroup
+      GroupName: ComplicatedSecGroup
+      GroupDescription: ComplicatedSecGroup
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/0
           FromPort: 25565
@@ -45,7 +45,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties: 
       IpAddressType: ipv4
-      Name: SpigotLoadBalancer
+      Name: ComplicatedLoadBalancer
       SubnetMappings: 
         - AllocationId: eipalloc-0359a1de15a0bec4f
           SubnetId: subnet-42c51c1b
@@ -55,7 +55,7 @@ Resources:
   SpigotTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties: 
-      Name: SpigotTargetGroup
+      Name: ComplicatedTargetGroup
       Port: 25565
       Protocol: TCP
       Targets: 
